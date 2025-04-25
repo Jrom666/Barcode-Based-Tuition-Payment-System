@@ -23,5 +23,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/students',[StudentController::class,'index'])->name('students');
     Route::post('/addStudent',[StudentController::class,'addUser'])->name('addUser');
     Route::get('/edit-user/{user}',[UserController::class,'showEditScreen']);
-    Route::put('/edit-user/{user}',[UserController::class,'updateUserInfo']);
+    Route::put('/edit-user/{id}',[UserController::class,'updateUserInfo']);
 });

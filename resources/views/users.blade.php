@@ -40,9 +40,13 @@
                             <td>{{ optional($user->created_at)->format('M d, Y') }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="/edit-user/{{$user->id}}" class="btn btn-sm btn-outline-primary">
+                                    <button type="button" 
+                                            class="btn btn-sm btn-outline-primary" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editUserModal{{$user->id}}">
                                         <i class="bi bi-pencil-square"></i>
-                                    </a>
+                                    </button>
+
                                     <form action="/delete/{{ $user->id }}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -53,6 +57,58 @@
                                 </div>
                             </td>
                         </tr>
+                        <!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal{{$user->id}}" tabindex="-1" aria-labelledby="editUserModalLabel{{$user->id}}" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/edit-user/{{ $user->id }}" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="editUserModalLabel{{$user->id}}">Edit User - {{ $user->name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control" value="{{ $user->name }}" required>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" value="{{ $user->username }}" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control" value="{{ $user->email }}" required>
+                    </div>
+
+                    <!-- User Type -->
+                    <div class="mb-3">
+                        <label class="form-label">User Type</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="usertype_id" value="2" {{ $user->usertype_id == 2 ? 'checked' : '' }}>
+                            <label class="form-check-label">Cashier</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="usertype_id" value="1" {{ $user->usertype_id == 1 ? 'checked' : '' }}>
+                            <label class="form-check-label">Admin</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-warning">Update</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
                         @empty
                         <tr>
                             <td colspan="6" class="text-center py-4 text-muted">No users found.</td>
