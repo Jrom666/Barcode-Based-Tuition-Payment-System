@@ -50,4 +50,28 @@ class UserController extends Controller
         Auth::logout();
         return redirect('/');
     }
+
+    public function showEditScreen(User $user){
+        return view('edit-user',['user'=> $user]);
+    }
+
+    public function updateUserInfo(User $user, Request $request ){
+        $incomingFields = $request->validate([
+            'name' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'usertype_id' => 'required',
+            'email' => 'required'
+        ]);
+
+        $incomingFields['name'] = strip_tags($incomingFields['name']);
+        $incomingFields['username'] = strip_tags($incomingFields['username']);
+        $incomingFields['password'] = strip_tags($incomingFields['password']);
+        $incomingFields['usertype_id'] = strip_tags($incomingFields['usertype_id']);
+        $incomingFields['email'] = strip_tags($incomingFields['email']);
+
+
+        $user->update($incomingFields);
+        return redirect('/users');
+    }
 }

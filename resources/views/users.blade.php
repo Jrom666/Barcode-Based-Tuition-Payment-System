@@ -40,7 +40,7 @@
                             <td>{{ optional($user->created_at)->format('M d, Y') }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="#" class="btn btn-sm btn-outline-primary">
+                                    <a href="/edit-user/{{$user->id}}" class="btn btn-sm btn-outline-primary">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     <form action="/delete/{{ $user->id }}" method="POST">
