@@ -27,7 +27,6 @@
     <section class="login-section" aria-label="Login form">
       <form class="login-form" id="loginForm" action="/login" method="POST">
         @csrf
-
         {{-- User Icon --}}
         <div class="user-avatar">
           <img src="{{ asset('images/user.png') }}" alt="User profile icon" width="60" height="60">

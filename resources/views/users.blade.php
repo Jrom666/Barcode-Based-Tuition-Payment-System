@@ -57,7 +57,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <!-- Edit User Modal -->
+<!-- Edit User Modal -->
 <div class="modal fade" id="editUserModal{{$user->id}}" tabindex="-1" aria-labelledby="editUserModalLabel{{$user->id}}" aria-hidden="true">
     <div class="modal-dialog">
         <form action="/edit-user/{{ $user->id }}" method="POST">
