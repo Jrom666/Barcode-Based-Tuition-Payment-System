@@ -51,4 +51,7 @@ class User extends Authenticatable
     public function usertype(){
         return $this->belongsTo(Usertype::class,'usertype_id');
     }
+    public function payment(){
+        return $this->hasMany(Payment::class);
+    }
 }
