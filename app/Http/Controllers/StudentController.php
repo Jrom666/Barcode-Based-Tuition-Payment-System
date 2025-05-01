@@ -37,4 +37,13 @@ class StudentController extends Controller
     
         return redirect()->back()->with('success', 'Student added successfully!');
     }
+
+    public function scan(Request $request)
+        {
+            $barcode = $request->input('barcode');
+            
+            $student = Student::with('program', 'payments')->where('student_number', $barcode)->first();
+
+            return view('payment', compact('student'));
+        }
 }

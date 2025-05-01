@@ -20,8 +20,25 @@
             </div>
             <button type="submit" class="btn btn-primary">Scan</button>
         </form>
+        @if(isset($student))
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Student Information</h5>
+                    <p><strong>Name:</strong> {{ $student->name }}</p>
+                    <p><strong>Student ID:</strong> {{ $student->student_number }}</p>
+                    <p><strong>Total Tuition:</strong> ₱{{ number_format($student->program->fee, 2) }}</p>
+                    <p><strong>Remaining Balance:</strong> ₱{{ number_format($student->program->fee - $student->payments->sum('amount'), 2) }}</p>
+                    <p><strong>Course:</strong> {{ $student->program->name }}</p>
+                    <p><strong>Address:</strong> {{ $student->address }}</p>
+                </div>
+            </div>
+        @elseif(session('error'))
+            <div class="alert alert-danger mt-4">
+                {{ session('error') }}
+            </div>
+        @endif
+
     </div>
 </body>
 </html>
-
 @endsection

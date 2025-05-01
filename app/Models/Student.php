@@ -23,4 +23,10 @@ class Student extends Model
     public function program(){
         return $this->belongsTo(Program::class);
     }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    
 }
