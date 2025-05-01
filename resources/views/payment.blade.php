@@ -21,6 +21,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Scan</button>
         </form>
+
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -29,7 +30,6 @@
         @endif
 
 
-        @if(isset($student))
         <div class="row">
             <!-- Student Info Card -->
             <div class="col-md-6">
@@ -40,35 +40,35 @@
                     <div class="card-body bg-light-subtle rounded-bottom-4">
                         <div class="row mb-2">
                             <div class="col-4 text-muted">Student ID</div>
-                            <div class="col-8 fw-medium">{{ $student->student_number }}</div>
+                            <div class="col-8 fw-medium">{{ $student->student_number ?? '' }}</div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 text-muted">Name</div>
-                            <div class="col-8 fw-medium">{{ $student->name }}</div>
+                            <div class="col-8 fw-medium">{{ $student->name ?? '' }}</div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 text-muted">Course</div>
-                            <div class="col-8 fw-medium">{{ $student->program->name }}</div>
+                            <div class="col-8 fw-medium">{{ $student->program->name ?? '' }}</div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 text-muted">Total Tuition</div>
-                            <div class="col-8 fw-medium">₱{{ number_format($student->program->fee, 2) }}</div>
+                            <div class="col-8 fw-medium">₱{{ isset($student) ? number_format($student->program->fee, 2) : '' }}</div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 text-muted">Remaining Balance</div>
                             <div class="col-8 fw-medium 
-                                {{ ($student->program->fee - $student->payments->sum('amount')) > 0 ? 'text-danger' : 'text-success' }}">
-                                ₱{{ number_format($student->program->fee - $student->payments->sum('amount'), 2) }}
+                                {{ isset($student) && ($student->program->fee - $student->payments->sum('amount')) > 0 ? 'text-danger' : 'text-success' }}">
+                                ₱{{ isset($student) ? number_format($student->program->fee - $student->payments->sum('amount'), 2) : '' }}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4 text-muted">Address</div>
-                            <div class="col-8 fw-medium">{{ $student->address }}</div>
+                            <div class="col-8 fw-medium">{{ $student->address ?? '' }}</div>
                         </div>
                     </div>
                 </div>
             </div>
-
+        
             <!-- Barcode Scanner Card -->
             <div class="col-md-6">
                 <div class="card shadow-sm border-0 rounded-4">
@@ -78,53 +78,78 @@
                     <div class="card-body bg-light-subtle rounded-bottom-4 text-center">
                         <div id="scanner-container" style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden;"></div>
                     </div>
+                    <div class="card-footer bg-white text-center">
+                        <button id="start-scanning" class="btn btn-success">Start Scanning</button>
+                        <button id="stop-scanning" class="btn btn-danger" style="display: none;">Stop Scanning</button>
+                    </div>
                 </div>
             </div>
         </div>
-        @elseif(session('error'))
-        <div class="alert alert-danger mt-4">
-            {{ session('error') }}
-        </div>
+        
+        @if(session('error'))
+            <div class="alert alert-danger mt-4">
+                {{ session('error') }}
+            </div>
         @endif
-    </div>
 
-    
+    </div>
 
     <!-- Scanner Script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <script>
+        let isScanning = false;
+
         document.addEventListener("DOMContentLoaded", function () {
-            Quagga.init({
-                inputStream: {
-                    name: "Live",
-                    type: "LiveStream",
-                    target: document.querySelector('#scanner-container'), // The container
-                    constraints: {
-                        facingMode: "environment" // or "user" for front camera
+            const startButton = document.getElementById("start-scanning");
+            const stopButton = document.getElementById("stop-scanning");
+            let scanner;
+
+            function startScanning() {
+                Quagga.init({
+                    inputStream: {
+                        name: "Live",
+                        type: "LiveStream",
+                        target: document.querySelector('#scanner-container'), // The container
+                        constraints: {
+                            facingMode: "environment" // or "user" for front camera
+                        },
                     },
-                },
-                decoder: {
-                    readers: ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"]
+                    decoder: {
+                        readers: ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"]
+                    }
+                }, function (err) {
+                    if (err) {
+                        console.error("Quagga init error:", err);
+                        return;
+                    }
+                    Quagga.start();
+                    isScanning = true;
+                    startButton.style.display = 'none';
+                    stopButton.style.display = 'inline-block';
+                });
+
+                Quagga.onDetected(function (result) {
+                    const code = result.codeResult.code;
+                    console.log("Scanned code:", code);
+                    document.getElementById("barcode").value = code;
+                    stopScanning(); // Stop scanning after a successful scan
+                    alert(code);
+                });
+            }
+
+            function stopScanning() {
+                if (isScanning) {
+                    Quagga.stop();
+                    isScanning = false;
+                    startButton.style.display = 'inline-block';
+                    stopButton.style.display = 'none';
                 }
-            }, function (err) {
-                if (err) {
-                    console.error("Quagga init error:", err);
-                    return;
-                }
-                Quagga.start();
-            });
-        
-            Quagga.onDetected(function (result) {
-                const code = result.codeResult.code;
-                console.log("Scanned code:", code);
-                document.getElementById("barcode").value = code;
-                Quagga.stop(); // Optional: stop scanning after successful read
-                alert(code);
-            });
+            }
+
+            startButton.addEventListener('click', startScanning);
+            stopButton.addEventListener('click', stopScanning);
         });
-        </script>
-        
-    
+    </script>
 </body>
 </html>
 @endsection
