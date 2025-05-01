@@ -35,7 +35,7 @@
             <div class="col-md-6">
                 <div class="card shadow-sm border-0 rounded-4">
                     <div class="card-header bg-white border-bottom-0 rounded-top-4">
-                        <h5 class="mb-0 fw-semibold text-primary">Student Information</h5>
+                        <h5 class="mb-0 fw-semibold text-primary">teeeeeeeeeeeeeeeeeeeesst</h5>
                     </div>
                     <div class="card-body bg-light-subtle rounded-bottom-4">
                         <div class="row mb-2">
