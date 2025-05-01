@@ -41,9 +41,13 @@ class StudentController extends Controller
     public function scan(Request $request)
         {
             $barcode = $request->input('barcode');
-            
-            $student = Student::with('program', 'payments')->where('student_number', $barcode)->first();
+            $student = Student::where('student_number', $barcode)->first();
 
-            return view('payment', compact('student'));
+            if ($student) {
+                return view('payment', compact('student'))
+                    ->with('success', 'Student barcode scanned successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Student not found.');
+            }
         }
 }
