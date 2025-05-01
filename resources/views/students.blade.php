@@ -114,7 +114,7 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>Remaining Balance: 500,000,000 Pesos</p>
+                                                    <h4 class="{{ ($student->program->fee - $student->payments->sum('amount')) > 0 ? 'text-danger' : 'text-success' }}">₱{{ number_format($student->program->fee - $student->payments->sum('amount'), 2) }}</h4>
                                                     <table class="table table-hover table-bordered align-middle">
                                                         <thead class="table-primary">
                                                             <tr>
