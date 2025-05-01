@@ -35,7 +35,7 @@
             <div class="col-md-6">
                 <div class="card shadow-sm border-0 rounded-4">
                     <div class="card-header bg-white border-bottom-0 rounded-top-4">
-                        <h5 class="mb-0 fw-semibold text-primary">teeeeeeeeeeeeeeeeeeeesst</h5>
+                        <h5 class="mb-0 fw-semibold text-primary">Student Information</h5>
                     </div>
                     <div class="card-body bg-light-subtle rounded-bottom-4">
                         <div class="row mb-2">
@@ -109,15 +109,22 @@
                     inputStream: {
                         name: "Live",
                         type: "LiveStream",
-                        target: document.querySelector('#scanner-container'), // The container
+                        target: document.querySelector('#scanner-container'),
                         constraints: {
-                            facingMode: "environment" // or "user" for front camera
+                        facingMode: "environment"
                         },
                     },
                     decoder: {
-                        readers: ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"]
-                    }
-                }, function (err) {
+                        readers: ["code_128_reader"] // Use only the format you're using
+                    },
+                    locator: {
+                        patchSize: "medium",
+                        halfSample: true
+                    },
+                    locate: true,
+                    numOfWorkers: navigator.hardwareConcurrency || 4,
+                    frequency: 10
+                    }, function (err) {
                     if (err) {
                         console.error("Quagga init error:", err);
                         return;
