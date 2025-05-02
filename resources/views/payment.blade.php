@@ -111,7 +111,8 @@
                         type: "LiveStream",
                         target: document.querySelector('#scanner-container'),
                         constraints: {
-                        facingMode: "environment"
+                            facingMode: "environment",
+                            frameRate: { ideal: 30, max: 60 }
                         },
                     },
                     decoder: {
@@ -121,8 +122,9 @@
                         patchSize: "large",
                         halfSample: false
                     },
-                    detectionConfidence: 0.5,
-                    locate: true,
+                    willReadFrequently: true,
+                    detectionConfidence: 0.3,
+                    locate: false,
                     numOfWorkers: navigator.hardwareConcurrency || 4,
                     frequency: 60
                     }, function (err) {
@@ -139,9 +141,9 @@
                 Quagga.onDetected(function (result) {
                     const code = result.codeResult.code;
                     console.log("Scanned code:", code);
-                    document.getElementById("barcode").value = code;
-                    stopScanning(); // Stop scanning after a successful scan
+                    document.getElementById("barcode").value = code;// Stop scanning after a successful scan
                     alert(code);
+                    stopScanning(); 
                 });
                 Quagga.onProcessed(function (result) {
                     const drawingCtx = Quagga.canvas.ctx.overlay,
