@@ -68,6 +68,65 @@
                     </div>
                 </div>
             </div>
+
+            @if(isset($student))
+            <div class="card mt-4 shadow-sm border-0 rounded-4">
+                <div class="card-header bg-white border-bottom-0 rounded-top-4">
+                    <h5 class="mb-0 fw-semibold text-primary">Add Payment</h5>
+                </div>
+                <div class="card-body bg-light-subtle rounded-bottom-4">
+                    <form method="POST" action="{{ route('payments') }}">
+                        @csrf
+                        <input type="hidden" name="student_id" value="{{ $student->id }}">
+                        <input type="hidden" name="cashier_id" value="{{ auth()->user()->id }}"> <!-- Assuming the cashier is the logged-in user -->
+            
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" step="0.01" class="form-control" name="amount" required>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="term" class="form-label">Term</label>
+                            <select class="form-select" name="term" required>
+                                <option value="Prelim">Prelim</option>
+                                <option value="Midterms">Midterms</option>
+                                <option value="Prefinal">Prefinal</option>
+                                <option value="Finals">Finals</option>
+                            </select>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="payment_method" class="form-label">Payment Method</label>
+                            <input type="text" class="form-control" name="payment_method">
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="reference_number" class="form-label">Reference Number</label>
+                            <input type="text" class="form-control" name="reference_number">
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="payment_date" class="form-label">Payment Date</label>
+                            <input type="date" class="form-control" name="payment_date" value="{{ date('Y-m-d') }}" required>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" name="status">
+                                <option value="Paid">Paid</option>
+                                <option value="Partial">Partial</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="cashier_id" value="{{ auth()->id() }}">
+                        <button type="submit" class="btn btn-primary">Submit Payment</button>
+                    </form>
+                </div>
+            </div>
+            @endif
+            
+
         
             <!-- Barcode Scanner Card -->
             <div class="col-md-6">
@@ -142,7 +201,7 @@
                     const code = result.codeResult.code;
                     console.log("Scanned code:", code);
                     document.getElementById("barcode").value = code;// Stop scanning after a successful scan
-                    alert(code);
+                    // document.querySelector("form").submit(); 
                     stopScanning(); 
                 });
                 Quagga.onProcessed(function (result) {

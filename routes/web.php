@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
@@ -25,5 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/edit-user/{user}',[UserController::class,'showEditScreen']);
     Route::put('/edit-user/{id}',[UserController::class,'updateUserInfo']);
     Route::post('/scan', [StudentController::class, 'scan'])->name('scan');
+    Route::post('/payments', [PaymentController::class, 'payments'])->name('payments');
+
 
 });
