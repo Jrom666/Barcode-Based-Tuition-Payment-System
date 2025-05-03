@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+
     public function payment(Request $request){
         Payment::create([
             'student_id' => $request->student_id,
@@ -23,4 +24,3 @@ class PaymentController extends Controller
         return redirect('payment')->with('success', 'Payment recorded successfully!');;
     }
 }
-
