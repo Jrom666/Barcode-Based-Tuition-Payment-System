@@ -16,8 +16,8 @@ class Payment extends Model
         'payment_method',
         'reference_number',
     ];
-    
     public function student(){
         return $this->belongsTo(Student::class);
     }
+    
 }
