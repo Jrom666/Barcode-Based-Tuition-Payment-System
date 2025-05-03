@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
+use App\Models\Payment;
 use App\Models\Program;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -12,8 +13,9 @@ class StudentController extends Controller
     {
         $students = Student::with('program')->get();
         $programs = Program::all(); 
+        $transactions = Payment::all();
 
-        return view('students', compact('students', 'programs'));
+        return view('students', compact('students', 'programs','transactions'));
     }
 
     public function addUser(Request $request){
