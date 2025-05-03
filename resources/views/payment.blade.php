@@ -114,7 +114,7 @@
                     </div>
                 </div>
             </div>
-
+           
             <!-- Barcode Scanner Card -->
             <div class="col-lg-6">
                 <div class="card shadow-sm h-100 border-0 rounded-3">
@@ -310,7 +310,7 @@
                 }
             });
         }
-
+ 
         function stopScanner() {
             if (scannerActive) {
                 Quagga.stop();

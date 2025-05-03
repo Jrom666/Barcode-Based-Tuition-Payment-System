@@ -23,5 +23,3 @@ class PaymentController extends Controller
         return redirect('payment')->with('success', 'Payment recorded successfully!');;
     }
 }
-
-

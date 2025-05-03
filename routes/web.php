@@ -28,5 +28,4 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/edit-user/{id}',[UserController::class,'updateUserInfo']);
     Route::post('/scan', [StudentController::class, 'scan'])->name('scan');
     Route::post('/process-payment',[PaymentController::class,'payment']);
-
 });
