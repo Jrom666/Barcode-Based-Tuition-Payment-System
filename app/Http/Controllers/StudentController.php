@@ -42,6 +42,8 @@ class StudentController extends Controller
         {
             $barcode = $request->input('barcode');
             $student = Student::where('student_number', $barcode)->first();
+            $studentName = Student::where('name', $barcode)->first();
+            $student = Student::where('student_number', $barcode)->first();
 
             if ($student) {
                 return view('payment', compact('student'))
