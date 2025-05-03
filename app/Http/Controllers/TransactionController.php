@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class TransactionController extends Controller
 {
     public function index(){
-        $payments = Payment::all();
-        return view('transactions',compact('payments'));
+        $transactions = Payment::all();
+        return view('transactions',compact('transactions'));
     }
 }

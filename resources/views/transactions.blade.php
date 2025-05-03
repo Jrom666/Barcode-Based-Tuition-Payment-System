@@ -27,20 +27,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($payments as $payment)
+                        @forelse ($transactions as $transaction)
                         <tr>
-                            <td>{{ $payment->reference_number }}</td>
-                            <td>{{ $payment->student->name }}</td>
-                            <td>₱{{ number_format($payment->amount, 2)}}</td>
-                            <td>{{ $payment->term }}</td>
-                            <td>{{ $payment->status }}</td>
-                            <td>{{ $payment->cashier_id }}</td>
-                            <td>{{ $payment->payment_method }}</td>
-                            <td>{{ optional($payment->created_at)->format('M d, Y') }}</td>
+                            <td>{{ $transaction->reference_number }}</td>
+                            <td>{{ $transaction->student->name }}</td>
+                            <td>₱{{ number_format($transaction->amount, 2)}}</td>
+                            <td>{{ $transaction->term }}</td>
+                            <td>{{ $transaction->status }}</td>
+                            <td>{{ $transaction->cashier->name}}</td>
+                            <td>{{ $transaction->payment_method }}</td>
+                            <td>{{ optional($transaction->created_at)->format('M d, Y') }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2 flex-wrap">
                                     <!-- View Button -->
-                                    <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewStudentModal{{ $payment->id }}">
+                                    <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewStudentModal{{ $transaction->id }}">
                                         <i class="bi bi-search"></i> View
                                     </button>
         

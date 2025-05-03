@@ -19,5 +19,8 @@ class Payment extends Model
     public function student(){
         return $this->belongsTo(Student::class);
     }
+    public function cashier(){
+        return $this->belongsTo(User::class);
+    }
     
 }
