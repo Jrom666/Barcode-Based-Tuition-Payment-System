@@ -145,7 +145,6 @@
     </div>
 
     <!-- Payment Modal -->
-    <!-- Payment Modal -->
 @if(isset($student) && ($student->program->fee - $student->payments->sum('amount') > 0))
 <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered"> <!-- Changed to modal-xl for wider layout -->

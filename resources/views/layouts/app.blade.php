@@ -64,11 +64,11 @@
                 <i class="bi bi-credit-card me-2"></i> Payment
             </a>
         </li>
-        <li class="nav-item mb-2">
+        {{-- <li class="nav-item mb-2">
             <a href="{{ route('statistics') }}" class="nav-link text-white rounded-pill {{ request()->routeIs('statistics') ? 'active' : '' }}">
                 <i class="bi bi-bar-chart-line me-2"></i> Statistics
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item mb-2">
             <a href="{{ route('students') }}" class="nav-link text-white rounded-pill {{ request()->routeIs('students') ? 'active' : '' }}">
                 <i class="bi bi-people me-2"></i> Students

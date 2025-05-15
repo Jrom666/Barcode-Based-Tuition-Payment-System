@@ -22,10 +22,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::post('/register',[UserController::class,'register'])->name('register');
     Route::delete('/delete/{user}',[UserController::class,'deleteUser']);
+    Route::delete('/delete/student/{student}',[StudentController::class,'deleteStudent']);
     Route::get('/students',[StudentController::class,'index'])->name('students');
     Route::post('/addStudent',[StudentController::class,'addUser'])->name('addUser');
     Route::get('/edit-user/{user}',[UserController::class,'showEditScreen']);
     Route::put('/edit-user/{id}',[UserController::class,'updateUserInfo']);
     Route::post('/scan', [StudentController::class, 'scan'])->name('scan');
     Route::post('/process-payment',[PaymentController::class,'payment']);
+    Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
 });

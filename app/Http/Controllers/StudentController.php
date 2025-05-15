@@ -45,7 +45,6 @@ class StudentController extends Controller
             $barcode = $request->input('barcode');
             $student = Student::where('student_number', $barcode)->first();
             $studentName = Student::where('name', $barcode)->first();
-            $student = Student::where('student_number', $barcode)->first();
 
             if ($student) {
                 return view('payment', compact('student'))
@@ -54,4 +53,29 @@ class StudentController extends Controller
                 return redirect()->back()->with('error', 'Student not found.');
             }
         }
+    public function deleteStudent(Student $student){
+        $student->delete(); 
+        return redirect('/students');
+    }
+    public function search(Request $request)
+    {
+        $query = Student::with(['program', 'payments']);
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('student_number', 'like', "%{$search}%")
+                ->orWhere('phone', 'like', "%{$search}%")
+                ->orWhereHas('program', function($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        $students = $query->latest()->paginate(10);
+        $programs = Program::all();
+
+        return view('students', compact('students', 'programs'));
+    }
 }
