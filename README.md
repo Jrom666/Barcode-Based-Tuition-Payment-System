@@ -1,3 +1,22 @@
+1. I started by running the following command: git add .
+git add . stages all modified files in the current directory (and subdirectories)
+
+2. Then, I ran: git commit -m "wow"
+git commit creates a new commit with the staged changes
+The -m "wow" option specifies a commit message (in this case, "wow")
+
+3. Next, I pushed my local changes to the remote repository: git push origin main 
+git push pushes your commits to the remote repository (in this case, origin, which is the alias for your GitHub repository)
+main specifies that you want to push your changes to the main branch of the remote repository
+
+Finally, Git confirms that the changes were pushed to the remote repository and shows that it was pushed to the main branch:
+To https://github.com/Jrom666/Barcode-Based-Tuition-Payment-System.git
+ * [new branch]      main -> main
+
+ This means the local main branch has been successfully pushed to the main branch on GitHub.
+
+
+
 1. Install Dependencies on the New Computer
 Make sure the following tools are installed on the new machine:
 
